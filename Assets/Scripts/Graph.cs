@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +9,14 @@ public class Graph : MonoBehaviour
     {
         x,
         x2,
-        Sin,
-        Cos
+        x3,
+        sin,
+        cos
     }
 
     [SerializeField] private Transform pointPrefab;
+    [SerializeField] private UI ui;
+    [Space(20f)]
     [SerializeField] private float increment = 0.5f;
     [SerializeField] private Function func;
 
@@ -20,8 +24,11 @@ public class Graph : MonoBehaviour
 
 
     [ContextMenu("Plot Graph")]
-    void PlotGraph()
+    public void PlotGraph()
     {
+        func = (Function)ui.dropdown.value;
+        
+
         for (float i = xSize.x; i <= xSize.y; i += increment)
         {
             Transform point = Instantiate(pointPrefab);
@@ -37,7 +44,7 @@ public class Graph : MonoBehaviour
     }
 
     [ContextMenu("Clear Graph")]
-    void ClearGraph()
+    public void ClearGraph()
     {
         while(transform.childCount > 0)
         {
@@ -48,7 +55,7 @@ public class Graph : MonoBehaviour
         }
     }
 
-    float CalculatePoint(float x, Function func)
+    private float CalculatePoint(float x, Function func)
     {
         switch (func)
         {
@@ -56,13 +63,29 @@ public class Graph : MonoBehaviour
                 return x;
             case Function.x2:
                 return x * x;
-            case Function.Sin:
+            case Function.x3:
+                return x * x * x;
+            case Function.sin:
                 return Mathf.Sin(x);
-            case Function.Cos:
+            case Function.cos:
                 return Mathf.Cos(x);
 
             default:
                 return 0;
         }
     }
+
+    public List<string> GetFunctionNameList()
+    {
+        List<string> functionNameList = new List<string>();
+
+        foreach(string functionName in Enum.GetNames(typeof(Function)))
+        {
+            functionNameList.Add(functionName);
+        } 
+
+        return functionNameList;
+    }
+
+
 }
