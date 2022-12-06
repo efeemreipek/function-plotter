@@ -10,8 +10,11 @@ public class Graph : MonoBehaviour
         x,
         x2,
         x3,
+        oneOverX,
+        ex,
         sin,
-        cos
+        cos,
+        tan
     }
 
     [SerializeField] private Transform pointPrefab;
@@ -65,10 +68,16 @@ public class Graph : MonoBehaviour
                 return x * x;
             case Function.x3:
                 return x * x * x;
+            case Function.oneOverX:
+                return 1/x;
+            case Function.ex:
+                return Mathf.Exp(x);
             case Function.sin:
                 return Mathf.Sin(x);
             case Function.cos:
                 return Mathf.Cos(x);
+            case Function.tan:
+                return Mathf.Tan(x);
 
             default:
                 return 0;
