@@ -30,6 +30,7 @@ public class Graph : MonoBehaviour
     public void PlotGraph()
     {
         func = (Function)ui.dropdown.value;
+        increment = ui.ReturnIncrementValueFromSlider();
         
 
         for (float i = xSize.x; i <= xSize.y; i += increment)
