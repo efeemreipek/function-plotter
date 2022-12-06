@@ -24,6 +24,7 @@ public class Graph : MonoBehaviour
     [SerializeField] private Function func;
 
     private Vector2 xSize = new Vector2(-4f, 4f);
+    private bool isFuncPlotted = false;
 
 
     [ContextMenu("Plot Graph")]
@@ -32,31 +33,41 @@ public class Graph : MonoBehaviour
         func = (Function)ui.dropdown.value;
         increment = ui.ReturnIncrementValueFromSlider();
         
-
-        for (float i = xSize.x; i <= xSize.y; i += increment)
+          
+        if(isFuncPlotted == false)
         {
-            Transform point = Instantiate(pointPrefab);
-            point.SetParent(transform);
-
-            point.localPosition = new Vector3(i, 0f, CalculatePoint(i, func));
-            if (point.position.z < xSize.x || point.position.z > xSize.y)
+            for (float i = xSize.x; i <= xSize.y; i += increment)
             {
-                DestroyImmediate(point.gameObject);
-                continue;
+                Transform point = Instantiate(pointPrefab);
+                point.SetParent(transform);
+
+                point.localPosition = new Vector3(i, 0f, CalculatePoint(i, func));
+                if (point.position.z < xSize.x || point.position.z > xSize.y)
+                {
+                    DestroyImmediate(point.gameObject);
+                    continue;
+                }
             }
         }
+
+        isFuncPlotted = true;
     }
 
     [ContextMenu("Clear Graph")]
     public void ClearGraph()
     {
-        while(transform.childCount > 0)
+        if (isFuncPlotted == true)
         {
-            foreach (Transform child in transform)
+            while (transform.childCount > 0)
             {
-                DestroyImmediate(child.gameObject);
+                foreach (Transform child in transform)
+                {
+                    DestroyImmediate(child.gameObject);
+                }
             }
         }
+
+        isFuncPlotted = false;
     }
 
     private float CalculatePoint(float x, Function func)
