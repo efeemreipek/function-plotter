@@ -41,12 +41,16 @@ public class Graph : MonoBehaviour
                 Transform point = Instantiate(pointPrefab);
                 point.SetParent(transform);
 
-                point.localPosition = new Vector3(i, 0f, CalculatePoint(i, func));
+                float calculatedPoint = CalculatePoint(i, func);
+
+                point.localPosition = new Vector3(i, 0f, calculatedPoint);
                 if (point.position.z < xSize.x || point.position.z > xSize.y)
                 {
                     DestroyImmediate(point.gameObject);
                     continue;
                 }
+
+                point.name = $"Point (x = {i}, y = {calculatedPoint})";
             }
         }
 
