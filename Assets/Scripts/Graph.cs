@@ -23,17 +23,15 @@ public class Graph : MonoBehaviour
     [SerializeField] private float increment = 0.5f;
     [SerializeField] private Function func;
 
-    private Vector2 xSize = new Vector2(-4f, 4f);
+    private Vector2 xSize = new Vector2(-5f, 5f);
     private bool isFuncPlotted = false;
-
 
     [ContextMenu("Plot Graph")]
     public void PlotGraph()
     {
         func = (Function)ui.dropdown.value;
         increment = ui.ReturnIncrementValueFromSlider();
-        
-          
+
         if(isFuncPlotted == false)
         {
             for (float i = xSize.x; i <= xSize.y; i += increment)
@@ -44,6 +42,7 @@ public class Graph : MonoBehaviour
                 float calculatedPoint = CalculatePoint(i, func);
 
                 point.localPosition = new Vector3(i, 0f, calculatedPoint);
+
                 if (point.position.z < xSize.x || point.position.z > xSize.y)
                 {
                     DestroyImmediate(point.gameObject);
